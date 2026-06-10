@@ -6,6 +6,7 @@ import { addItemToCart } from '../../services/cart';
 import { getProductReviews, addReview } from '../../services/review';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useAuth } from '../../contexts/AuthContext';
+import { imageUrl } from '../../utils/imageUrl';
 import type { ProductResponse, ReviewResponse } from '../../types';
 
 export default function ProductDetailPage() {
@@ -48,7 +49,7 @@ export default function ProductDetailPage() {
   if (loading) return <LoadingSpinner />;
   if (!product) return <p className="text-center py-20">Product not found</p>;
 
-  const image = product.images?.[0] || 'https://placehold.co/600x600?text=No+Image';
+  const image = imageUrl(product.images?.[0]) || 'https://placehold.co/600x600?text=No+Image';
   const price = product.salePrice || product.price;
 
   return (

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import type { ProductResponse } from '../types';
+import { imageUrl } from '../utils/imageUrl';
 
 export default function ProductCard({ product }: { product: ProductResponse }) {
-  const image = product.images?.[0] || 'https://placehold.co/300x300?text=No+Image';
+  const image = imageUrl(product.images?.[0]) || 'https://placehold.co/300x300?text=No+Image';
   const price = product.salePrice || product.price;
 
   return (
