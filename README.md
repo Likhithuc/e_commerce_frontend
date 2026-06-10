@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# E-Commerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 e-commerce storefront built with Vite, TypeScript, Tailwind CSS v4, and Recharts.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Charts | Recharts |
+| HTTP | Axios |
+| Routing | React Router v7 |
+| Bundler | Vite 8 |
+| Deployment | Vercel (recommended) |
 
-## React Compiler
+## Quick Start (Local)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Frontend runs at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Environment Variable
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create `.env.local` in the project root:
+
 ```
+VITE_API_URL=http://localhost:4999/api
+```
+
+## Features
+
+### Public
+- Product listing with search, filters, and pagination
+- Product detail page with reviews
+- User registration & login
+
+### Authenticated (Customer)
+- Shopping cart management
+- Checkout & order placement
+- Order history & tracking
+- Wishlist
+- Address management
+- Notifications
+
+### Admin
+- **Dashboard** — stats cards, quick actions, low stock alerts, recent orders
+- **Reports** — sales, orders, customers, inventory with interactive charts
+- **Products** — CRUD management
+- **Categories** — CRUD management
+- **Coupons** — discount management
+- **Inventory** — stock tracking
+
+## Project Structure
+
+```
+src/
+├── components/     # Shared UI (Layout, Navbar, ProductCard, etc.)
+├── contexts/       # React contexts (AuthContext)
+├── pages/          # Route pages
+│   ├── admin/      # Dashboard, Products, Reports, Inventory, etc.
+│   ├── auth/       # Login, Register, Forgot/Reset Password
+│   ├── cart/       # Cart, Checkout
+│   ├── orders/     # Order list & detail
+│   ├── products/   # Product list & detail
+│   ├── addresses/  # Address management
+│   ├── wishlist/   # Wishlist
+│   └── notifications/
+├── services/       # API service functions (axios)
+├── types/          # TypeScript type definitions
+└── utils/          # Utility helpers
+```
+
+## Deployment (Vercel)
+
+1. Push to GitHub
+2. Go to [vercel.com](https://vercel.com) → **Import Repository**
+3. Set environment variable:
+
+| Key | Value |
+|-----|-------|
+| `VITE_API_URL` | `https://your-backend.up.railway.app/api` |
+
+4. Deploy (Vercel auto-detects Vite settings)
+
+### Image Serving
+Product images are proxied from the backend. Make sure `VITE_API_URL` points to your backend's API root. The `imageUrl()` utility prepends it automatically.
+
+## Local Proxy
+
+In development, Vite proxies `/uploads` to the backend:
+
+```
+http://localhost:5173/uploads/... → http://localhost:4999/api/uploads/...
+```
+
+This matches the Vite config in `vite.config.ts`.
