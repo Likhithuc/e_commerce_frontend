@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4999/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function imageUrl(path: string | null | undefined): string {
   if (!path) return '';
