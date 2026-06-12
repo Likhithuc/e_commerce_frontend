@@ -21,6 +21,7 @@ import AdminProductsPage from './pages/admin/Products';
 import AdminCouponsPage from './pages/admin/Coupons';
 import AdminInventoryPage from './pages/admin/Inventory';
 import AdminReportsPage from './pages/admin/Reports';
+import AdminOrdersPage from './pages/admin/AdminOrders';
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/admin/coupons" element={<AdminRoute><AdminCouponsPage /></AdminRoute>} />
             <Route path="/admin/inventory" element={<AdminRoute><AdminInventoryPage /></AdminRoute>} />
             <Route path="/admin/reports" element={<AdminRoute><AdminReportsPage /></AdminRoute>} />
+            <Route path="/admin/orders" element={<AdminRoute><AdminOrdersPage /></AdminRoute>} />
           </Route>
         </Routes>
       </AuthProvider>

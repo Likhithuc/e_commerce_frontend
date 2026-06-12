@@ -25,3 +25,13 @@ export const cancelOrder = async (id: number) => {
   const res = await api.put(`/orders/${id}/cancel`);
   return res.data.data;
 };
+
+export const getAllOrders = async (params: { page?: number; size?: number }) => {
+  const res = await api.get<{ data: PageResponse<OrderResponse> }>('/orders/admin/all', { params });
+  return res.data.data;
+};
+
+export const updateOrderStatus = async (id: number, status: string) => {
+  const res = await api.put(`/orders/admin/${id}/status?status=${status}`);
+  return res.data.data;
+};

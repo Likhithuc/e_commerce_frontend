@@ -66,6 +66,7 @@ export default function AdminDashboard() {
             <Link to="/admin/categories" className="border rounded-lg p-3 text-center hover:bg-gray-50 text-sm">Manage Categories</Link>
             <Link to="/admin/coupons" className="border rounded-lg p-3 text-center hover:bg-gray-50 text-sm">Manage Coupons</Link>
             <Link to="/admin/inventory" className="border rounded-lg p-3 text-center hover:bg-gray-50 text-sm">View Inventory</Link>
+            <Link to="/admin/orders" className="border rounded-lg p-3 text-center hover:bg-gray-50 text-sm">Manage Orders</Link>
           </div>
         </div>
 
