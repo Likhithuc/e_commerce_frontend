@@ -8,7 +8,20 @@ import {
   LineChart, Line,
 } from 'recharts';
 
-const COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+const STATUS_COLORS: Record<string, string> = {
+  PENDING: '#f59e0b',
+  CONFIRMED: '#3b82f6',
+  SHIPPED: '#8b5cf6',
+  DELIVERED: '#22c55e',
+  CANCELLED: '#ef4444',
+};
+
+const INVENTORY_COLORS = ['#6366f1', '#22c55e', '#f97316'];
+const CHART_COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+
+function getColor(name: string, i: number): string {
+  return STATUS_COLORS[name.toUpperCase()] || CHART_COLORS[i % CHART_COLORS.length];
+}
 
 export default function AdminReportsPage() {
   const [report, setReport] = useState<ReportResponse | null>(null);
@@ -85,9 +98,9 @@ export default function AdminReportsPage() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-                  {Object.entries((d?.ordersByStatus as Record<string, number>) || {}).map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                <Bar dataKey="count" radius={[4, 4, 0, 0]} label={{ position: 'top', fontSize: 12 }}>
+                  {Object.entries((d?.ordersByStatus as Record<string, number>) || {}).map(([k], i) => (
+                    <Cell key={k} fill={getColor(k, i)} />
                   ))}
                 </Bar>
               </BarChart>
@@ -99,8 +112,8 @@ export default function AdminReportsPage() {
               <PieChart>
                 <Pie data={Object.entries((d?.ordersByStatus as Record<string, number>) || {}).map(([k, v]) => ({ name: k, value: v }))}
                   cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
-                  {Object.entries((d?.ordersByStatus as Record<string, number>) || {}).map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  {Object.entries((d?.ordersByStatus as Record<string, number>) || {}).map(([k], i) => (
+                    <Cell key={k} fill={getColor(k, i)} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -142,15 +155,9 @@ export default function AdminReportsPage() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-                  {[
-                    { name: 'Pending', count: (d?.pendingOrders as number) || 0 },
-                    { name: 'Confirmed', count: (d?.confirmedOrders as number) || 0 },
-                    { name: 'Shipped', count: (d?.shippedOrders as number) || 0 },
-                    { name: 'Delivered', count: (d?.deliveredOrders as number) || 0 },
-                    { name: 'Cancelled', count: (d?.cancelledOrders as number) || 0 },
-                  ].map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                <Bar dataKey="count" radius={[4, 4, 0, 0]} label={{ position: 'top', fontSize: 12 }}>
+                  {['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'].map((name, i) => (
+                    <Cell key={name} fill={getColor(name, i)} />
                   ))}
                 </Bar>
               </BarChart>
@@ -186,7 +193,8 @@ export default function AdminReportsPage() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} dot={{ fill: '#6366f1', r: 6 }} />
+                <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} dot={{ fill: '#6366f1', r: 6 }}
+                  label={{ position: 'top', fontSize: 12 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -220,7 +228,7 @@ export default function AdminReportsPage() {
                   { name: 'Categories', value: (d?.totalCategories as number) || 0 },
                   { name: 'Low Stock', value: (d?.lowStockItems as number) || 0 },
                 ]} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
-                  {[0, 1, 2].map(i => <Cell key={i} fill={COLORS[i]} />)}
+                  {[0, 1, 2].map(i => <Cell key={i} fill={INVENTORY_COLORS[i]} />)}
                 </Pie>
                 <Tooltip />
                 <Legend />
