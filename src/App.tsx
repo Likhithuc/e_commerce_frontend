@@ -10,6 +10,7 @@ import ProductListPage from './pages/products/ProductList';
 import ProductDetailPage from './pages/products/ProductDetail';
 import CartPage from './pages/cart/Cart';
 import CheckoutPage from './pages/cart/Checkout';
+import PaymentPage from './pages/payments/Payment';
 import OrderListPage from './pages/orders/OrderList';
 import OrderDetailPage from './pages/orders/OrderDetail';
 import WishlistPage from './pages/wishlist/Wishlist';
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="/products/:id" element={<ProductDetailPage />} />
             <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
             <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+            <Route path="/payment/:id" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute><OrderListPage /></ProtectedRoute>} />
             <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
             <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />

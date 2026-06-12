@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     setSubmitting(true);
     try {
       const order = await placeOrder({ addressId: selectedAddress, couponCode: couponCode || undefined });
-      navigate(`/orders/${order.id}`);
+      navigate(`/payment/${order.id}`);
     } catch {
       alert('Failed to place order');
     } finally {
