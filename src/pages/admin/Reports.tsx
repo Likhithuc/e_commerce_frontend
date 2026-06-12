@@ -27,17 +27,17 @@ export default function AdminReportsPage() {
   const [report, setReport] = useState<ReportResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState('');
+  const [startDate, setStartDate] = useState(() => new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0]);
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
 
-  const fetchReport = async (reportType: string) => {
+  const fetchReport = async (reportType: string, start?: string, end?: string) => {
     setLoading(true);
     setType(reportType);
     try {
-      const end = new Date().toISOString().split('T')[0];
-      const start = new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
       let data: ReportResponse;
       switch (reportType) {
-        case 'sales': data = await getSalesReport(start, end); break;
-        case 'orders': data = await getOrdersReport(start, end); break;
+        case 'sales': data = await getSalesReport(start || startDate, end || endDate); break;
+        case 'orders': data = await getOrdersReport(start || startDate, end || endDate); break;
         case 'customers': data = await getCustomersReport(); break;
         case 'inventory': data = await getInventoryReport(); break;
         default: return;
@@ -63,7 +63,7 @@ export default function AdminReportsPage() {
           { key: 'customers', label: 'Customers Report', icon: '👥' },
           { key: 'inventory', label: 'Inventory Report', icon: '📋' },
         ].map(b => (
-          <button key={b.key} onClick={() => fetchReport(b.key)}
+          <button key={b.key} onClick={() => fetchReport(b.key, startDate, endDate)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
               type === b.key ? 'bg-indigo-600 text-white' : 'bg-white border hover:bg-gray-50'
             }`}>
@@ -71,6 +71,21 @@ export default function AdminReportsPage() {
           </button>
         ))}
       </div>
+
+      {(type === 'sales' || type === 'orders') && (
+        <div className="flex items-center gap-2 mb-6">
+          <label className="text-sm text-gray-500">From:</label>
+          <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
+            className="border rounded px-3 py-1.5 text-sm" />
+          <label className="text-sm text-gray-500">To:</label>
+          <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
+            className="border rounded px-3 py-1.5 text-sm" />
+          <button onClick={() => fetchReport(type, startDate, endDate)}
+            className="bg-indigo-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-indigo-700">
+            Apply
+          </button>
+        </div>
+      )}
 
       {loading && <LoadingSpinner />}
 
