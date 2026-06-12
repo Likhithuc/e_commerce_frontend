@@ -142,7 +142,17 @@ export default function AdminReportsPage() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]} fill="#6366f1" />
+                <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                  {[
+                    { name: 'Pending', count: (d?.pendingOrders as number) || 0 },
+                    { name: 'Confirmed', count: (d?.confirmedOrders as number) || 0 },
+                    { name: 'Shipped', count: (d?.shippedOrders as number) || 0 },
+                    { name: 'Delivered', count: (d?.deliveredOrders as number) || 0 },
+                    { name: 'Cancelled', count: (d?.cancelledOrders as number) || 0 },
+                  ].map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
