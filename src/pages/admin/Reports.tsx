@@ -38,8 +38,8 @@ export default function AdminReportsPage() {
       switch (reportType) {
         case 'sales': data = await getSalesReport(start || startDate, end || endDate); break;
         case 'orders': data = await getOrdersReport(start || startDate, end || endDate); break;
-        case 'customers': data = await getCustomersReport(); break;
-        case 'inventory': data = await getInventoryReport(); break;
+        case 'customers': data = await getCustomersReport(start || startDate, end || endDate); break;
+        case 'inventory': data = await getInventoryReport(start || startDate, end || endDate); break;
         default: return;
       }
       setReport(data);
@@ -72,7 +72,7 @@ export default function AdminReportsPage() {
         ))}
       </div>
 
-      {(type === 'sales' || type === 'orders') && (
+      {(type === 'sales' || type === 'orders' || type === 'customers' || type === 'inventory') && (
         <div className="flex items-center gap-2 mb-6">
           <label className="text-sm text-gray-500">From:</label>
           <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}

@@ -11,12 +11,12 @@ export const getOrdersReport = async (startDate?: string, endDate?: string) => {
   return res.data.data;
 };
 
-export const getCustomersReport = async () => {
-  const res = await api.get<{ data: ReportResponse }>('/reports/customers');
+export const getCustomersReport = async (startDate?: string, endDate?: string) => {
+  const res = await api.get<{ data: ReportResponse }>('/reports/customers', { params: { startDate, endDate } });
   return res.data.data;
 };
 
-export const getInventoryReport = async () => {
-  const res = await api.get<{ data: ReportResponse }>('/reports/inventory');
+export const getInventoryReport = async (startDate?: string, endDate?: string) => {
+  const res = await api.get<{ data: ReportResponse }>('/reports/inventory', { params: { startDate, endDate } });
   return res.data.data;
 };
